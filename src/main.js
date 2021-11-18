@@ -15,7 +15,8 @@ import LoginPage from "@/components/LoginPage/index.vue"
 import CreateAccountPage from "@/components/CreateAccountPage/index.vue"
 // import MainLayout component
 import MainLayout from "@/components/MainLayout/index.vue"
-
+// import ProjectList component
+import ProjectList from "@/components/ProjectList/index.vue"
 Vue.config.productionTip = false
 
 // defind you route
@@ -23,8 +24,15 @@ const routes = [
   { path: '/', component: LoginPage },
   { path: '/create-account', component: CreateAccountPage },
   {
-    path: '/main', component: MainLayout
-  },
+    path: '/main', component: MainLayout,
+    children: [
+      {
+        path: "/project-list",
+        name: "project-list",
+        component: ProjectList
+      }
+    ]
+  }
 ]
 
 // router object
