@@ -11,12 +11,15 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 // import LoginPage component
 import LoginPage from "@/components/LoginPage/index.vue"
+// import CreateAccountPage component
+import CreateAccountPage from "@/components/CreateAccountPage/index.vue"
 
 Vue.config.productionTip = false
 
 // defind you route
 const routes = [
   { path: '/', component: LoginPage },
+  { path: '/create-account', component: CreateAccountPage },
 ]
 
 // router object
