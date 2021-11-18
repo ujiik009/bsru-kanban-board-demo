@@ -25,5 +25,9 @@ export default {
     Helvetica Inserat, Bitstream Vera Sans Bold, Arial Black, sans serif;
 }
 
+.full-height{
+  height: 100%;
+}
+
 
 </style>

@@ -13,6 +13,8 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import LoginPage from "@/components/LoginPage/index.vue"
 // import CreateAccountPage component
 import CreateAccountPage from "@/components/CreateAccountPage/index.vue"
+// import MainLayout component
+import MainLayout from "@/components/MainLayout/index.vue"
 
 Vue.config.productionTip = false
 
@@ -20,6 +22,9 @@ Vue.config.productionTip = false
 const routes = [
   { path: '/', component: LoginPage },
   { path: '/create-account', component: CreateAccountPage },
+  {
+    path: '/main', component: MainLayout
+  },
 ]
 
 // router object
