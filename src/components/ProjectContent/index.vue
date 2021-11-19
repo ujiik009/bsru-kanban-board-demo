@@ -3,14 +3,12 @@
     <div class="content-body">
       <b-tabs content-class="mt-3">
         <b-tab title="Kanban Board" active>
-            <div>
-                Kanban Content
-            </div>     
+          <div>
+            <KanbanBoard />
+          </div>
         </b-tab>
         <b-tab title="Members">
-            <div>
-                Member Content
-            </div>
+          <div>Member Content</div>
         </b-tab>
       </b-tabs>
     </div>
@@ -18,17 +16,23 @@
 </template>
 
 <script>
-export default {};
+import KanbanBoard from "@/components/ProjectContent/components/KanbanBoard.vue";
+export default {
+  components: {
+    KanbanBoard,
+  },
+};
 </script>
 
 <style>
+
 .content-page {
   height: 100%;
   overflow-y: auto;
   background-color: #e7e7e7;
   padding-left: 20px;
   padding-right: 20px;
-  /* background-color: lightcoral; */
+ 
 }
 .content-body {
   margin: 20px;
@@ -38,5 +42,6 @@ export default {};
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.2);
   -webkit-box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
 }
 </style>
