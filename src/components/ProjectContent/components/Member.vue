@@ -1,7 +1,7 @@
 <template>
   <div id="view-content">
     <div class="header">
-      <div class="board-label">{{ project.name }} Kanban Board</div>
+      <div class="board-label">{{ project.name }} > Member ({{members.length}})</div>
       <div>
         <b-button class="btn-primary" @click="open_invite_member_modal = true"
           >Invite member</b-button
