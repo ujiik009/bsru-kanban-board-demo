@@ -33,9 +33,11 @@ export default {
   syntax: "<number>";
   inherits: false;
   initial-value: 0;
+  
 }
 
 #progress {
+  
   --size: var(--size);
   --fg: #23C3E7;
   --bg: #23c3e755;

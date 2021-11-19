@@ -19,13 +19,16 @@
       <div class="lane-column">
         <div class="lane-column-header">
           <span>Todo ({{ tasks.todo.length }})</span>
-          <b-button size="sm" class="create-task-icon"
-          @click="create_task_model('todo')"
+          <b-button
+            size="sm"
+            class="create-task-icon"
+            @click="create_task_model('todo')"
             ><b-icon icon="plus"></b-icon
           ></b-button>
         </div>
         <div class="column-body">
           <Task
+            @click="open_task_model(task_item)"
             @dragstart="dragstart(task_item)"
             :task="task_item"
             v-for="task_item in tasks.todo"
@@ -45,13 +48,16 @@
       <div class="lane-column">
         <div class="lane-column-header">
           <span>In Progress ({{ tasks.in_progress.length }})</span>
-          <b-button size="sm" class="create-task-icon"
-          @click="create_task_model('in_progress')"
+          <b-button
+            size="sm"
+            class="create-task-icon"
+            @click="create_task_model('in_progress')"
             ><b-icon icon="plus"></b-icon
           ></b-button>
         </div>
         <div class="column-body">
           <Task
+            @click="open_task_model(task_item)"
             @dragstart="dragstart(task_item)"
             :task="task_item"
             v-for="task_item in tasks.in_progress"
@@ -77,6 +83,7 @@
         </div>
         <div class="column-body">
           <Task
+            @click="open_task_model(task_item)"
             @dragstart="dragstart(task_item)"
             :task="task_item"
             v-for="task_item in tasks.done"
@@ -95,17 +102,37 @@
       </div>
     </div>
     <!-- content -->
+
+    <!-- modal open task -->
+    <div>
+      <b-modal
+        v-if="open_task_modal == true"
+        v-model="open_task_modal"
+        title="Edit Task"
+        hide-footer
+        size="xl"
+      >
+        <p class="my-4">
+          <TaskContent :task_item="task_item_drag" />
+        </p>
+      </b-modal>
+    </div>
+    <!-- modal open task -->
   </div>
 </template>
 
 <script>
 import Task from "@/components/ProjectContent/components/Task.vue";
+import TaskContent from "@/components/ProjectContent/components/TaskContent.vue";
 export default {
   components: {
     Task,
+    TaskContent,
   },
   data() {
     return {
+      open_task_modal: false,
+      create_task_modal: false,
       project_item: {
         id: 1,
         name: "Web Desinger Project",
@@ -154,6 +181,10 @@ export default {
   },
   methods: {
     create_task_model() {},
+    open_task_model(task_item) {
+      this.task_item_drag = task_item;
+      this.open_task_modal = true;
+    },
     dragstart(task_item) {
       console.log("dragstart");
       this.task_item_drag = task_item;

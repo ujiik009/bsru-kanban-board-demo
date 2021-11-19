@@ -1,5 +1,10 @@
 <template>
-  <div id="task" draggable @dragstart="$emit('dragstart')">
+  <div
+    id="task"
+    draggable
+    @click="$emit('click')"
+    @dragstart="$emit('dragstart')"
+  >
     <div class="body-task">
       <div class="task-title">
         {{ task.title }}
@@ -46,6 +51,7 @@ export default {
 
 <style scoped>
 #task {
+  cursor: pointer;
   margin-top: 10px;
   position: relative;
   background-color: white;
