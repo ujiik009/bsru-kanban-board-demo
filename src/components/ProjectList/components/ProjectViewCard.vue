@@ -8,7 +8,7 @@
         md="4"
         sm="12"
       >
-        <div class="card-project" @click="open_board(project.id)">
+        <div class="card-project" @click="open_project(project.id)">
           <div>
             <span style="font-size: 20px">{{
               show_created_at(project.created_at)
@@ -81,8 +81,8 @@ export default {
     show_created_at(date) {
       return moment(date, "YYYY-MM-DD HH:mm:ss").format("MMMM DD YYYY");
     },
-    open_board(project_id) {
-      this.$router.push(`/board/${project_id}`)
+    open_project(project_id) {
+      this.$router.push(`/project/content/${project_id}`)
     },
   },
 };

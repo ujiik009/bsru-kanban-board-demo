@@ -44,7 +44,7 @@
                 @click="view_page_active = 'card'"
                 v-bind:class="{
                   ['btn-view']: true,
-                  active: view_page_active == 'card',
+                  ['active-btn']: view_page_active == 'card',
                 }"
                 ><b-icon icon="grid-3x3-gap-fill"></b-icon
               ></b-button>
@@ -52,7 +52,7 @@
                 @click="view_page_active = 'list'"
                 v-bind:class="{
                   ['btn-view']: true,
-                  active: view_page_active == 'list',
+                  ['active-btn']: view_page_active == 'list',
                 }"
                 ><b-icon icon="list-ul"></b-icon
               ></b-button>
@@ -80,8 +80,14 @@
             <div class="task" v-for="(task, index) in tasks" :key="index">
               <div style="width: 50px">
                 <div class="round" style="margin-top: 15px; margin-left: 10px">
-                  <input type="checkbox" checked id="checkbox" />
-                  <label for="checkbox"></label>
+                 
+                  <input
+                    type="checkbox"
+                    :id="`${'checkbox'}${index}`"
+                    :checked="task.status"
+                    @change="task.status = !task.status"
+                  />
+                   <label :for="`${'checkbox'}${index}`"></label>
                 </div>
               </div>
               <div>
@@ -118,10 +124,12 @@ export default {
         {
           name: "Create Login Page",
           label: "Design",
+          status: false,
         },
         {
           name: "Create Register Page",
           label: "Design",
+          status: true,
         },
       ],
       project: [
@@ -160,6 +168,12 @@ export default {
       ],
     };
   },
+  methods:{
+    checked_task(event){
+      console.log(event)
+      alert(555)
+    }
+  }
 };
 </script>
 
@@ -172,7 +186,7 @@ export default {
   background-color: white;
   color: #43435e;
 }
-.active {
+.active-btn {
   background-color: #43435e !important;
   color: white !important;
 }

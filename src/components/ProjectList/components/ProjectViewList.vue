@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      @click="open_board(project.id)"
+      @click="open_project(project.id)"
       class="list-item-project"
       v-for="(project, index) in projects"
       :key="index"
@@ -56,8 +56,8 @@ export default {
     show_created_at(date) {
       return moment(date, "YYYY-MM-DD HH:mm:ss").format("MMM DD YYYY HH:mm:ss");
     },
-    open_board(project_id) {
-      this.$router.push(`/board/${project_id}`);
+    open_project(project_id) {
+      this.$router.push(`/project/content/${project_id}`);
     },
   },
 };

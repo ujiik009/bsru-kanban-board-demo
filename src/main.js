@@ -17,6 +17,8 @@ import CreateAccountPage from "@/components/CreateAccountPage/index.vue"
 import MainLayout from "@/components/MainLayout/index.vue"
 // import ProjectList component
 import ProjectList from "@/components/ProjectList/index.vue"
+// import ProjectContent component
+import ProjectContent from "@/components/ProjectContent/index.vue"
 Vue.config.productionTip = false
 
 // defind you route
@@ -30,6 +32,11 @@ const routes = [
         path: "/project-list",
         name: "project-list",
         component: ProjectList
+      },
+      {
+        path: "/project/content/:project_id",
+        name: "project-content",
+        component: ProjectContent
       }
     ]
   }
