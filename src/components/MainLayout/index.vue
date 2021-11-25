@@ -3,7 +3,7 @@
     <!-- nav bar -->
     <div class="topnav">
       <div class="font-impact logo">BSRU Kanban</div>
-      <!-- <div>asdas</div> -->
+    
       <div>
         <div>
           <b-avatar

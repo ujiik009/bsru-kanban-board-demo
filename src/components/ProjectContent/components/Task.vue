@@ -79,7 +79,6 @@ export default {
 }
 .body-task {
   padding: 10px;
-
   top: 0;
   height: calc(100% - 10px);
   width: 100%;

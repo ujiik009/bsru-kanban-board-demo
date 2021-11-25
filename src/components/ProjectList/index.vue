@@ -270,7 +270,6 @@ export default {
   background-color: #e7e7e7;
   padding-left: 20px;
   padding-right: 20px;
-  /* background-color: lightcoral; */
 }
 .container-box {
   display: flex;

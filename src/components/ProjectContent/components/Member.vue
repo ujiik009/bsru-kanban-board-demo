@@ -1,13 +1,16 @@
 <template>
   <div id="view-content">
     <div class="header">
-      <div class="board-label">{{ project.name }} > Member ({{members.length}})</div>
+      <div class="board-label">
+        {{ project.name }} > Member ({{ members.length }})
+      </div>
       <div>
         <b-button class="btn-primary" @click="open_invite_member_modal = true"
           >Invite member</b-button
         >
       </div>
     </div>
+    ``
     <div>
       <b-row class="box">
         <b-col
@@ -71,6 +74,7 @@
 </template>
 
 <script>
+
 export default {
   props: {
     project_id: String,
