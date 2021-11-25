@@ -3,7 +3,7 @@
     <!-- nav bar -->
     <div class="topnav">
       <div class="font-impact logo">BSRU Kanban</div>
-    
+
       <div>
         <div>
           <b-avatar
@@ -12,7 +12,10 @@
             :src="image_profile"
           ></b-avatar>
           <b-dropdown id="fullname-btn" :text="fullname">
-            <b-dropdown-item class="memu-item">
+            <b-dropdown-item
+              class="memu-item"
+              @click="go_to('/account/setting')"
+            >
               <b-icon icon="gear"></b-icon> Account Setting
             </b-dropdown-item>
             <b-dropdown-item class="memu-item">
@@ -39,6 +42,11 @@ export default {
       image_profile:
         "https://static01.nyt.com/newsgraphics/2020/11/12/fake-people/4b806cf591a8a76adfc88d19e90c8c634345bf3d/fallbacks/mobile-05.jpg",
     };
+  },
+  methods: {
+    go_to(path) {
+      this.$router.push(path);
+    },
   },
 };
 </script>

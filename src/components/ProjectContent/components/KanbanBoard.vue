@@ -26,7 +26,13 @@
             ><b-icon icon="plus"></b-icon
           ></b-button>
         </div>
-        <div class="column-body">
+        <div
+          @dragenter.prevent="drop_zone_enter"
+          @dragover.prevent
+          @dragleave.prevent="drop_zone_leave"
+          @drop.prevent="drop($event, 'todo')"
+          class="drop_zone column-body"
+        >
           <Task
             @click="open_task_model(task_item)"
             @dragstart="dragstart(task_item)"
@@ -34,15 +40,6 @@
             v-for="task_item in tasks.todo"
             :key="task_item.id"
           />
-          <div
-            @dragenter.prevent="drop_zone_enter"
-            @dragover.prevent
-            @dragleave.prevent="drop_zone_leave"
-            @drop.prevent="drop($event, 'todo')"
-            class="drop_zone"
-          >
-            <!-- drop zone -->
-          </div>
         </div>
       </div>
       <div class="lane-column">
@@ -55,7 +52,13 @@
             ><b-icon icon="plus"></b-icon
           ></b-button>
         </div>
-        <div class="column-body">
+        <div
+          @dragenter.prevent="drop_zone_enter"
+          @dragover.prevent
+          @dragleave.prevent="drop_zone_leave"
+          @drop.prevent="drop($event, 'in_progress')"
+          class="column-body drop_zone"
+        >
           <Task
             @click="open_task_model(task_item)"
             @dragstart="dragstart(task_item)"
@@ -63,15 +66,6 @@
             v-for="task_item in tasks.in_progress"
             :key="task_item.id"
           />
-          <div
-            @dragenter.prevent="drop_zone_enter"
-            @dragover.prevent
-            @dragleave.prevent="drop_zone_leave"
-            @drop.prevent="drop($event, 'in_progress')"
-            class="drop_zone"
-          >
-            <!-- drop zone -->
-          </div>
         </div>
       </div>
       <div class="lane-column">
@@ -81,7 +75,13 @@
             ><b-icon icon="plus"></b-icon
           ></b-button>
         </div>
-        <div class="column-body">
+        <div
+          @dragenter.prevent="drop_zone_enter"
+          @dragover.prevent
+          @dragleave.prevent="drop_zone_leave"
+          @drop.prevent="drop($event, 'done')"
+          class="drop_zone column-body"
+        >
           <Task
             @click="open_task_model(task_item)"
             @dragstart="dragstart(task_item)"
@@ -89,13 +89,7 @@
             v-for="task_item in tasks.done"
             :key="task_item.id"
           />
-          <div
-            @dragenter.prevent="drop_zone_enter"
-            @dragover.prevent
-            @dragleave.prevent="drop_zone_leave"
-            @drop.prevent="drop($event, 'done')"
-            class="drop_zone"
-          >
+          <div>
             <!-- drop zone -->
           </div>
         </div>
@@ -186,30 +180,21 @@ export default {
       this.open_task_modal = true;
     },
     dragstart(task_item) {
-      console.log("dragstart");
       this.task_item_drag = task_item;
     },
     drop_zone_enter(event) {
-      event.target.style.height = "100px";
       event.target.style.borderStyle = "dotted";
       event.target.style.borderWidth = "1px";
-      event.target.style.transition = "height 0.5s";
-      event.pre;
     },
     drop_zone_leave(event) {
-      event.target.style.height = "10px";
-      event.target.style.transition = "height 0.5s";
       event.target.style.borderStyle = "none";
     },
     drop(event, state) {
-      console.log(state, event);
-      event.target.style.height = "10px";
-      event.target.style.transition = "height 0.5s";
       event.target.style.borderStyle = "none";
 
       if (this.task_item_drag != null) {
         let previous_state = this.task_item_drag.state;
-        console.log(previous_state, "new state", state);
+    
 
         // remove previous_state
         this.tasks[previous_state] = this.tasks[previous_state].filter(
@@ -227,10 +212,6 @@ export default {
 </script>
 
 <style scoped>
-.drop_zone {
-  height: 100px;
-  margin-top: 10px;
-}
 .column-body {
   margin-top: 20px;
   background-color: rgba(255, 255, 255, 0.576);
