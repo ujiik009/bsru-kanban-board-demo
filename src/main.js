@@ -25,8 +25,8 @@ Vue.config.productionTip = false
 
 // defind you route
 const routes = [
-  { path: '/', component: LoginPage },
-  { path: '/create-account', component: CreateAccountPage },
+  { path: '/', component: LoginPage, name: "login" },
+  { path: '/create-account', component: CreateAccountPage, name: "create-account" },
   {
     path: '/main', component: MainLayout,
     children: [
@@ -51,6 +51,14 @@ const routes = [
 // router object
 const router = new VueRouter({
   routes // short for `routes: routes`
+})
+
+// Guards route
+router.beforeEach((to, from, next) => {
+  var token = localStorage.getItem("token") 
+  var isAuthenticated = (token != undefined) && (token != "")
+  if ((to.name !== 'login' && to.name !== 'create-account') && !isAuthenticated) next({ name: 'login' })
+  else next()
 })
 
 

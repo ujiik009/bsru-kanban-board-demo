@@ -4,11 +4,10 @@
       <div id="left-side">
         <div class="photo-profile">
           <b-avatar
-            style="background-color:antiquewhite"
+            style="background-color: antiquewhite"
             size="200px"
-            :text="record_user.full_name.substring(0,2)"
+            :text="record_user.full_name.substring(0, 2)"
           ></b-avatar>
-          
         </div>
         <div id="display-name">
           <div style="color: #43435e; padding: 25px">
@@ -125,30 +124,15 @@
             </b-row>
           </div>
           <div style="margin-top: 20px">
-            <b-button class="btn-custom btn-primary">Update</b-button>
+            <b-button class="btn-custom btn-primary" @click="update_profile"
+              >Update</b-button
+            >
             <b-button class="btn-custom btn-default">Cancel</b-button>
           </div>
         </div>
         <div v-if="menu_active == 'password'">
           <div class="title">Password Setting</div>
           <div class="box-content">
-            <b-row>
-              <b-col>
-                <b-form-group
-                  class="form-group-custom"
-                  label="Current Password"
-                  label-for="current_password"
-                >
-                  <b-form-input
-                    id="current_password"
-                    type="password"
-                    placeholder="Enter Current Password"
-                    required
-                    v-model="current_password"
-                  ></b-form-input>
-                </b-form-group>
-              </b-col>
-            </b-row>
             <b-row>
               <b-col>
                 <b-form-group
@@ -185,7 +169,9 @@
             </b-row>
           </div>
           <div style="margin-top: 20px">
-            <b-button class="btn-custom btn-primary">Update</b-button>
+            <b-button class="btn-custom btn-primary" @click="change_password"
+              >Update</b-button
+            >
             <b-button class="btn-custom btn-default">Cancel</b-button>
           </div>
         </div>
@@ -195,25 +181,88 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   created() {
     this.preview_img = this.record_user.image_profile;
+    this.record_user = JSON.parse(localStorage.getItem("user_info"));
   },
   data() {
     return {
       preview_img: "",
-      current_password: "",
       new_password: "",
       confirm_password: "",
       menu_active: "account", // account,password
       record_user: {
-        full_name: "Apirat Premchana",
-        email: "example@email.com",
-        phone: "0966543865",
-        position: "Backend Developer",
-        bio: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
+        full_name: "",
+        email: "",
+        phone: "",
+        position: "",
+        bio: "",
       },
     };
+  },
+  methods: {
+    change_password() {
+      if (this.new_password != "" && this.confirm_password != "") {
+        if (this.new_password == this.confirm_password) {
+          axios
+            .put(
+              process.env.VUE_APP_API +
+                "/api_kanban_board/service/profile/change_password.php",
+              {
+                new_password: this.new_password,
+              },
+              {
+                headers: {
+                  authorization: localStorage.getItem("token"),
+                },
+              }
+            )
+            .then(async (res) => {
+              if (res.data.status == true) {
+                alert(res.data.message);
+              } else {
+                alert(res.data.message);
+              }
+            })
+            .catch((error) => {
+              alert(error.message);
+            });
+        } else {
+          alert("Password it incorrect");
+        }
+      } else {
+        alert("Password field Cannot be empty");
+      }
+    },
+    update_profile() {
+      axios
+        .put(
+          process.env.VUE_APP_API +
+            "/api_kanban_board/service/profile/update_profile.php",
+          {
+            ...this.record_user,
+          },
+          {
+            headers: {
+              authorization: localStorage.getItem("token"),
+            },
+          }
+        )
+        .then(async (res) => {
+          if (res.data.status == true) {
+            // save data to localStorage
+            localStorage.setItem("user_info", JSON.stringify(this.record_user));
+            alert(res.data.message);
+          } else {
+            alert(res.data.message);
+          }
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    },
   },
 };
 </script>

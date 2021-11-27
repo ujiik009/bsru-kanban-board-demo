@@ -14,14 +14,14 @@
             variant="primary"
             :text="user_info.full_name.substring(0, 2)"
           ></b-avatar>
-          <b-dropdown id="fullname-btn" :text="user_info.full_name">
+          <b-dropdown id="fullname-btn" right :text="user_info.full_name">
             <b-dropdown-item
               class="memu-item"
               @click="go_to('/account/setting')"
             >
               <b-icon icon="gear"></b-icon> Account Setting
             </b-dropdown-item>
-            <b-dropdown-item class="memu-item">
+            <b-dropdown-item class="memu-item" @click="logout">
               <b-icon icon="box-arrow-right"></b-icon> Logout
             </b-dropdown-item>
           </b-dropdown>
@@ -39,19 +39,23 @@
 
 <script>
 export default {
-  created(){
-    this.user_info = JSON.parse(localStorage.getItem("user_info")) 
+  created() {
+    this.user_info = JSON.parse(localStorage.getItem("user_info"));
   },
   data() {
     return {
-      user_info:{
-
-      },
+      user_info: {},
     };
   },
   methods: {
     go_to(path) {
       this.$router.push(path);
+    },
+    logout() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user_info");
+      // redirect to login page
+      this.go_to("/")
     },
   },
 };
