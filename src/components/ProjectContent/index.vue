@@ -20,23 +20,53 @@
 <script>
 import KanbanBoard from "@/components/ProjectContent/components/KanbanBoard.vue";
 import Member from "@/components/ProjectContent/components/Member.vue";
+import axios from "axios";
 export default {
   components: {
     KanbanBoard,
     Member,
   },
+  async created() {
+    await this.get_project_by_id();
+  },
   data() {
     return {
       project_id: this.$route.params.project_id,
       project: {
-        id: 1,
-        name: "Web Desinger Project",
-        percent: 50,
-        task_count: 50,
-        duration: "2020-12-30 00:00:00",
-        created_at: "2020-11-01 00:00:00",
+        id: "",
+        name: "",
+        description: "",
+        start_date: "",
+        end_date: "",
+        created_at: "",
+        creator: "",
       },
     };
+  },
+  methods: {
+    get_project_by_id() {
+      axios
+        .get(
+          process.env.VUE_APP_API +
+            "/api_kanban_board/service/projects/get_project.php?id=" +
+            this.project_id,
+          {
+            headers: {
+              authorization: localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((res) => {
+          if (res.data.status == true) {
+            this.project = res.data.data;
+          } else {
+            alert(res.data.message);
+          }
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    },
   },
 };
 </script>
