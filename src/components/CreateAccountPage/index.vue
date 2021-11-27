@@ -11,7 +11,7 @@
       <div style="padding: 50px">
         <div class="login-form">
           <label>Name</label>
-          <input v-model="fullname" class="input-custom" type="text" />
+          <input v-model="full_name" class="input-custom" type="text" />
           <label>Email</label>
           <input v-model="email" class="input-custom" type="text" />
           <label>Password</label>
@@ -33,18 +33,45 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
-      fullname: "",
       email: "",
       password: "",
+      full_name: "",
+      phone: "",
+      position: "",
+      bio: "",
     };
   },
   methods: {
     create_account() {
       //TODO: 2. have to do connect to API server for create account here
-      console.log(this.fullname, this.email, this.password);
+      axios
+        .post(
+          process.env.VUE_APP_API +
+            "/api_kanban_board/service/authentication/register.php",
+          {
+            email: this.email,
+            password: this.password,
+            full_name: this.full_name,
+            phone: this.phone,
+            position: this.position,
+            bio: this.bio,
+          }
+        )
+        .then((res) => {
+          if (res.data.status == true) {
+            alert(res.data.message);
+            this.$router.push("/");
+          } else {
+            alert(res.data.message);
+          }
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
     },
   },
 };

@@ -12,9 +12,9 @@
             style="margin-right: 12px; background-color: antiquewhite"
             size="lg"
             variant="primary"
-            :text="fullname.substring(0, 2)"
+            :text="user_info.full_name.substring(0, 2)"
           ></b-avatar>
-          <b-dropdown id="fullname-btn" :text="fullname">
+          <b-dropdown id="fullname-btn" :text="user_info.full_name">
             <b-dropdown-item
               class="memu-item"
               @click="go_to('/account/setting')"
@@ -39,9 +39,14 @@
 
 <script>
 export default {
+  created(){
+    this.user_info = JSON.parse(localStorage.getItem("user_info")) 
+  },
   data() {
     return {
-      fullname: "HELLO",
+      user_info:{
+
+      },
     };
   },
   methods: {

@@ -98,7 +98,7 @@
               <div>
                 <div class="overme">{{ task.name }}</div>
                 <div>
-                  <b-badge class="badge-label">{{ task.label }}</b-badge>
+                  <b-badge class="badge-label">Due Date : {{ task.due_date }}</b-badge>
                 </div>
               </div>
             </div>
@@ -164,9 +164,15 @@
               </b-form-group>
             </b-col>
           </b-row>
-          <div style="text-align: right;margin-top: 10px;">
-            <b-button style="margin-right: 10px" @click="modal_project_create = false">Cancel</b-button>
-            <b-button class="btn-primary" @click="create_project">Create</b-button>
+          <div style="text-align: right; margin-top: 10px">
+            <b-button
+              style="margin-right: 10px"
+              @click="modal_project_create = false"
+              >Cancel</b-button
+            >
+            <b-button class="btn-primary" @click="create_project"
+              >Create</b-button
+            >
           </div>
         </div>
       </b-modal>
@@ -179,25 +185,30 @@
 import moment from "moment";
 import ProjectViewList from "@/components/ProjectList/components/ProjectViewList.vue";
 import ProjectViewCard from "@/components/ProjectList/components/ProjectViewCard.vue";
+import axios from "axios";
 export default {
   components: {
     ProjectViewList,
     ProjectViewCard,
   },
+  async created() {
+    await this.get_list_project();
+    await this.get_task_in_progress()
+  },
   data() {
     return {
       record_project: {
-        name: "BSRU App",
-        description: "Project make BSRU app with java Day 2",
-        start_date: "2020-01-01",
-        end_date: "2021-12-31",
+        name: "",
+        description: "",
+        start_date: moment().format("YYYY-MM-DD"),
+        end_date: moment().format("YYYY-MM-DD"),
       },
       modal_project_create: false,
       view_page_active: "card", // list,card
       date_now: moment().format("DD MMMM YYYY"),
-      in_progress: 20,
-      upcomeing: 26,
-      total_task: 46,
+      in_progress: 0,
+      upcomeing: 0,
+      total_task: 0,
       tasks: [
         {
           name: "Create Login Page",
@@ -210,43 +221,58 @@ export default {
           status: true,
         },
       ],
-      project: [
-        {
-          id: 1,
-          name: "Web Desinger Project",
-          percent: 50,
-          task_count: 50,
-          duration: "2020-12-30 00:00:00",
-          created_at: "2020-11-01 00:00:00",
-        },
-        {
-          id: 2,
-          name: "Final Project For BSRU",
-          percent: 90,
-          task_count: 50,
-          duration: "2020-12-30 00:00:00",
-          created_at: "2020-11-01 00:00:00",
-        },
-        {
-          id: 3,
-          name: "Project For internship",
-          percent: 35,
-          task_count: 50,
-          duration: "2020-12-30 00:00:00",
-          created_at: "2020-11-01 00:00:00",
-        },
-        {
-          id: 4,
-          name: "Main Project",
-          percent: 10,
-          task_count: 50,
-          duration: "2020-12-30 00:00:00",
-          created_at: "2020-11-01 00:00:00",
-        },
-      ],
+      project: [],
     };
   },
   methods: {
+    get_list_project() {
+      axios
+        .get(
+          process.env.VUE_APP_API +
+            "/api_kanban_board/service/projects/list_project.php",
+          {
+            headers: {
+              authorization: localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((res) => {
+          this.in_progress = 0;
+          this.upcomeing = 0;
+          this.total_task = 0;
+          if (res.data.status == true) {
+            res.data.data = res.data.data.map((project) => {
+              var task_done = project.tasks.filter((x) => x.state == "done");
+
+              var task_todo = project.tasks.filter((x) => x.state == "todo");
+
+              var task_in_progress = project.tasks.filter(
+                (x) => x.state == "in_progress"
+              );
+
+              this.upcomeing += task_todo.length;
+              this.in_progress += task_in_progress.length;
+              this.total_task += project.tasks.length;
+              project.task_count = project.tasks.length;
+              project.percent = (task_done.length / project.tasks.length) * 100;
+
+              if (isNaN(project.percent)) {
+                project.percent = 0;
+              }
+
+              project.duration = project.start_date;
+              return project;
+            });
+
+            this.project = res.data.data;
+          } else {
+            alert(res.data.message);
+          }
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    },
     checked_task(event) {
       console.log(event);
       alert(555);
@@ -254,16 +280,74 @@ export default {
     open_modal_project_create() {
       this.modal_project_create = true;
     },
-    create_project(){
-      alert("project created")
-    }
+    create_project() {
+      axios
+        .post(
+          process.env.VUE_APP_API +
+            "/api_kanban_board/service/projects/create_project.php",
+          { ...this.record_project },
+          {
+            headers: {
+              authorization: localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((res) => {
+          if (res.data.status == true) {
+            alert(res.data.message);
+
+            // fetch new list project
+            this.get_list_project();
+
+            // clear record
+            this.record_project = {
+              name: "",
+              description: "",
+              start_date: moment().format("YYYY-MM-DD"),
+              end_date: moment().format("YYYY-MM-DD"),
+            };
+          } else {
+            alert(res.data.message);
+          }
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    },
+    get_task_in_progress() {
+      axios
+        .get(
+          process.env.VUE_APP_API +
+            "/api_kanban_board/service/tasks/task_in_progress.php",
+          {
+            headers: {
+              authorization: localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((res) => {
+          if (res.data.status == true) {
+            res.data.data = res.data.data.map((task) => {
+              task.status = false;
+              return task;
+            });
+
+            this.tasks = res.data.data;
+          } else {
+            alert(res.data.message);
+          }
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    },
   },
 };
 </script>
 
 <style>
-.btn-primary{
-    background-color: #7741A0;
+.btn-primary {
+  background-color: #7741a0;
 }
 #view-content {
   height: calc(100% - 160px);
