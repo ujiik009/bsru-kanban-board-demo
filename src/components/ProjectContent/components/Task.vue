@@ -18,10 +18,10 @@
         <b-avatar
           class="avatar"
           v-b-tooltip.hover
-          :title="task.assign_to.full_name"
+          :title="task.user_assign.full_name"
           size="30"
           variant="info"
-          :text="task.assign_to.full_name.substring(0,2)"
+          :text="task.user_assign.full_name.substring(0,2)"
          
         ></b-avatar>
       </div>

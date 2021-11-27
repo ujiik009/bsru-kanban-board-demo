@@ -8,7 +8,7 @@
       >
         <b-form-input
           id="input-1"
-          v-model="task.title"
+          v-model="task.name"
           type="text"
           placeholder="Enter you task name"
           required
@@ -23,21 +23,23 @@
           max-rows="6"
         ></b-form-textarea>
       </b-form-group>
-      <b-row style="margin-top:10px;">
-        <b-col >
+      <b-row style="margin-top: 10px">
+        <b-col>
           <b-form-group label="Assign to">
             <b-form-select
+              v-model="task.assign_to"
               class="select-custom"
-              :options="options"
+              :options="members"
             ></b-form-select>
           </b-form-group>
         </b-col>
         <b-col>
           <b-form-group label="Color">
-            <b-form-select
+            <b-form-input
               class="select-custom"
-              :options="options"
-            ></b-form-select>
+              type="color"
+              v-model="task.color"
+            ></b-form-input>
           </b-form-group>
         </b-col>
         <b-col>
@@ -45,16 +47,17 @@
             <b-form-datepicker
               id="example-datepicker"
               class="mb-2"
-              v-model="task_item.due_date"
+              v-model="task.due_date"
             ></b-form-datepicker>
           </b-form-group>
         </b-col>
       </b-row>
     </b-form>
     <div style="text-align: right">
-      {{task_item.due_date}}
       <b-button style="margin-right: 10px">Cancel</b-button>
-      <b-button class="btn-primary">Update</b-button>
+      <b-button class="btn-primary" @click="submit_update_task"
+        >Update</b-button
+      >
     </div>
   </div>
 </template>
@@ -66,16 +69,10 @@ export default {
   },
   props: {
     task_item: Object,
+    members: Array,
   },
   data() {
     return {
-      options: [
-        { value: null, text: "Please select an option" },
-        { value: "a", text: "This is First option" },
-        { value: "b", text: "Selected Option" },
-        { value: { C: "3PO" }, text: "This is an option with object value" },
-        { value: "d", text: "This one is disabled", disabled: true },
-      ],
       task: {
         id: 0,
         title: "Create Login Page",
@@ -83,14 +80,14 @@ export default {
         description:
           "Login Page UI : You have to make prototype for you Developer and let them Coding Mockup follow you prototype",
         color: "#AFE4AE",
-        assign_to: {
-          id: 0,
-          fullname: "Jennifer S. Byrd",
-          image_profile:
-            "https://static01.nyt.com/newsgraphics/2020/11/12/fake-people/4b806cf591a8a76adfc88d19e90c8c634345bf3d/fallbacks/mobile-05.jpg",
-        },
+        assign_to: null,
       },
     };
+  },
+  methods: {
+    submit_update_task() {
+      this.$emit("submit", this.task);
+    },
   },
 };
 </script>
