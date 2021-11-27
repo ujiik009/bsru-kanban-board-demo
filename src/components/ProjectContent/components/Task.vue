@@ -2,10 +2,10 @@
   <div
     id="task"
     draggable
-    @click="$emit('click')"
+    
     @dragstart="$emit('dragstart')"
   >
-    <div class="body-task">
+    <div class="body-task" @click="$emit('click')">
       <div class="task-title">
         {{ task.title }}
       </div>
@@ -18,10 +18,11 @@
         <b-avatar
           class="avatar"
           v-b-tooltip.hover
-          :title="task.assign_to.fullname"
+          :title="task.assign_to.full_name"
           size="30"
           variant="info"
-          :src="task.assign_to.image_profile"
+          :text="task.assign_to.full_name.substring(0,2)"
+         
         ></b-avatar>
       </div>
       <div>
@@ -71,6 +72,7 @@ export default {
 .avatar {
   margin-left: 5px;
   margin-bottom: 5px;
+  background-color:antiquewhite;
 }
 .task-title {
   color: #43435e;

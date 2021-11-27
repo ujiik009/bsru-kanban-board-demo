@@ -23,8 +23,8 @@
           max-rows="6"
         ></b-form-textarea>
       </b-form-group>
-      <b-row>
-        <b-col>
+      <b-row style="margin-top:10px;">
+        <b-col >
           <b-form-group label="Assign to">
             <b-form-select
               class="select-custom"
@@ -41,17 +41,19 @@
           </b-form-group>
         </b-col>
         <b-col>
-          <b-form-group label="Color">
+          <b-form-group label="Due Date">
             <b-form-datepicker
               id="example-datepicker"
               class="mb-2"
+              v-model="task_item.due_date"
             ></b-form-datepicker>
           </b-form-group>
         </b-col>
       </b-row>
     </b-form>
-    <div style="text-align: right;">
-      <b-button  style="margin-right: 10px;">Cancel</b-button>
+    <div style="text-align: right">
+      {{task_item.due_date}}
+      <b-button style="margin-right: 10px">Cancel</b-button>
       <b-button class="btn-primary">Update</b-button>
     </div>
   </div>
@@ -99,7 +101,7 @@ export default {
   height: 36px;
   width: 100%;
 }
-.btn-primary{
-    background-color: #7741A0;
+.btn-primary {
+  background-color: #7741a0;
 }
 </style>

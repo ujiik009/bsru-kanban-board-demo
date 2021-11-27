@@ -22,9 +22,13 @@
         >
           <center>
             <div class="member-item">
-              <b-avatar :src="member_item.image_profile" size="9rem"></b-avatar>
+              <b-avatar 
+              :text="member_item.full_name.substring(0,2)"
+              size="9rem"
+              style="background-color:antiquewhite"
+              ></b-avatar>
               <div class="fullname">
-                {{ member_item.fullname }}
+                {{ member_item.full_name }}
               </div>
               <div class="position">
                 {{ member_item.position }}
@@ -101,38 +105,33 @@ export default {
       members: [
         {
           id: 1,
-          fullname: "Jennifer S. Byrd",
+          full_name: "Jennifer S. Byrd",
           position: "Backend Developer",
-          image_profile:
-            "https://static01.nyt.com/newsgraphics/2020/11/12/fake-people/4b806cf591a8a76adfc88d19e90c8c634345bf3d/fallbacks/mobile-05.jpg",
+          
         },
         {
           id: 2,
-          fullname: "Thomas J. Kohut",
+          full_name: "Thomas J. Kohut",
           position: "UX/UI Designer",
-          image_profile:
-            "https://static01.nyt.com/newsgraphics/2020/11/12/fake-people/4b806cf591a8a76adfc88d19e90c8c634345bf3d/fallbacks/mobile-05.jpg",
+          
         },
         {
           id: 3,
-          fullname: "Kenneth S. Ahrens",
+          full_name: "Kenneth S. Ahrens",
           position: "Frontend Developer",
-          image_profile:
-            "https://static01.nyt.com/newsgraphics/2020/11/12/fake-people/4b806cf591a8a76adfc88d19e90c8c634345bf3d/fallbacks/mobile-05.jpg",
+          
         },
         {
           id: 4,
-          fullname: "Jason S. Footman",
+          full_name: "Jason S. Footman",
           position: "Mobile Application Developer",
-          image_profile:
-            "https://thecreativemind.net/wp-content/uploads/2015/04/Rose-Byrne.jpg",
+          
         },
         {
           id: 5,
-          fullname: "Jonathan R. Bartlett",
+          full_name: "Jonathan R. Bartlett",
           position: "Product Manager",
-          image_profile:
-            "https://thecreativemind.net/wp-content/uploads/2015/04/Rose-Byrne.jpg",
+          
         },
       ],
     };

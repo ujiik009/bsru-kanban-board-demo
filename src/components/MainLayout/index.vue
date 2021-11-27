@@ -2,14 +2,17 @@
   <div class="full-height">
     <!-- nav bar -->
     <div class="topnav">
-      <div class="font-impact logo">BSRU Kanban</div>
+      <router-link to="/project-list">
+        <div class="font-impact logo">BSRU Kanban</div>
+      </router-link>
 
       <div>
         <div>
           <b-avatar
-            style="margin-right: 12px"
+            style="margin-right: 12px; background-color: antiquewhite"
             size="lg"
-            :src="image_profile"
+            variant="primary"
+            :text="fullname.substring(0, 2)"
           ></b-avatar>
           <b-dropdown id="fullname-btn" :text="fullname">
             <b-dropdown-item
@@ -38,9 +41,7 @@
 export default {
   data() {
     return {
-      fullname: "Apirat Premchana",
-      image_profile:
-        "https://static01.nyt.com/newsgraphics/2020/11/12/fake-people/4b806cf591a8a76adfc88d19e90c8c634345bf3d/fallbacks/mobile-05.jpg",
+      fullname: "HELLO",
     };
   },
   methods: {

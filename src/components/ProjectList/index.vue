@@ -4,7 +4,13 @@
       <div class="content-left">
         <div id="project-box">
           <div id="project-box-header" class="font-impact">
-            <div>Project</div>
+            <div>
+              Project
+              <b-button variant="primary" @click="open_modal_project_create"
+                >Create Project</b-button
+              >
+            </div>
+
             <div>{{ date_now }}</div>
           </div>
           <div id="summary-box">
@@ -80,14 +86,13 @@
             <div class="task" v-for="(task, index) in tasks" :key="index">
               <div style="width: 50px">
                 <div class="round" style="margin-top: 15px; margin-left: 10px">
-                 
                   <input
                     type="checkbox"
                     :id="`${'checkbox'}${index}`"
                     :checked="task.status"
                     @change="task.status = !task.status"
                   />
-                   <label :for="`${'checkbox'}${index}`"></label>
+                  <label :for="`${'checkbox'}${index}`"></label>
                 </div>
               </div>
               <div>
@@ -101,6 +106,72 @@
         </div>
       </div>
     </div>
+    <!-- modal project create -->
+    <div>
+      <b-modal
+        v-model="modal_project_create"
+        title="Create Project"
+        hide-footer
+        size="md"
+      >
+        <div class="my-4">
+          <b-row>
+            <b-col>
+              <b-form-group
+                label="Project Name"
+                label-for="project-name"
+                style="margin-bottom: 10px"
+              >
+                <b-form-input
+                  id="project-name"
+                  v-model="record_project.name"
+                  type="text"
+                  placeholder="Enter you project name"
+                  required
+                ></b-form-input> </b-form-group
+            ></b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <b-form-group label="Description" label-for="description">
+                <b-form-textarea
+                  id="description"
+                  v-model="record_project.description"
+                  placeholder="Enter something..."
+                  rows="6"
+                  max-rows="6"
+                ></b-form-textarea>
+              </b-form-group>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <b-form-group label="Start Date">
+                <b-form-datepicker
+                  id="start_date"
+                  class="mb-2"
+                  v-model="record_project.start_date"
+                ></b-form-datepicker>
+              </b-form-group>
+            </b-col>
+            <b-col>
+              <b-form-group label="End Date">
+                <b-form-datepicker
+                  id="end_date"
+                  class="mb-2"
+                  v-model="record_project.end_date"
+                ></b-form-datepicker>
+              </b-form-group>
+            </b-col>
+          </b-row>
+          <div style="text-align: right;margin-top: 10px;">
+            <b-button style="margin-right: 10px" @click="modal_project_create = false">Cancel</b-button>
+            <b-button class="btn-primary" @click="create_project">Create</b-button>
+          </div>
+        </div>
+      </b-modal>
+    </div>
+    <!-- modal project create -->
   </div>
 </template>
 
@@ -115,6 +186,13 @@ export default {
   },
   data() {
     return {
+      record_project: {
+        name: "BSRU App",
+        description: "Project make BSRU app with java Day 2",
+        start_date: "2020-01-01",
+        end_date: "2021-12-31",
+      },
+      modal_project_create: false,
       view_page_active: "card", // list,card
       date_now: moment().format("DD MMMM YYYY"),
       in_progress: 20,
@@ -168,16 +246,25 @@ export default {
       ],
     };
   },
-  methods:{
-    checked_task(event){
-      console.log(event)
-      alert(555)
+  methods: {
+    checked_task(event) {
+      console.log(event);
+      alert(555);
+    },
+    open_modal_project_create() {
+      this.modal_project_create = true;
+    },
+    create_project(){
+      alert("project created")
     }
-  }
+  },
 };
 </script>
 
 <style>
+.btn-primary{
+    background-color: #7741A0;
+}
 #view-content {
   height: calc(100% - 160px);
   overflow-y: auto;

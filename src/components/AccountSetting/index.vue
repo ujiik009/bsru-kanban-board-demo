@@ -3,23 +3,16 @@
     <div id="box-center">
       <div id="left-side">
         <div class="photo-profile">
-          <label class="upload-image" for="upload-image">
-            <b-avatar
-              ref="user-profile"
-              :src="preview_img"
-              size="200px"
-            ></b-avatar>
-          </label>
-          <input
-            type="file"
-            name="fileToUpload"
-            id="upload-image"
-            @change="upload_profile"
-          />
+          <b-avatar
+            style="background-color:antiquewhite"
+            size="200px"
+            :text="record_user.full_name.substring(0,2)"
+          ></b-avatar>
+          
         </div>
         <div id="display-name">
           <div style="color: #43435e; padding: 25px">
-            {{ record_user.fullname }}
+            {{ record_user.full_name }}
             <div style="color: #80808d; font-size: 14px">
               {{ record_user.position }}
             </div>
@@ -54,14 +47,14 @@
                 <b-form-group
                   class="form-group-custom"
                   label="Full Name:"
-                  label-for="fullname"
+                  label-for="full_name"
                 >
                   <b-form-input
-                    id="fullname"
+                    id="full_name"
                     type="email"
                     placeholder="Enter Fullname"
                     required
-                    v-model="record_user.fullname"
+                    v-model="record_user.full_name"
                   ></b-form-input>
                 </b-form-group>
               </b-col>
@@ -214,24 +207,13 @@ export default {
       confirm_password: "",
       menu_active: "account", // account,password
       record_user: {
-        fullname: "Apirat Premchana",
+        full_name: "Apirat Premchana",
         email: "example@email.com",
         phone: "0966543865",
         position: "Backend Developer",
         bio: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
-        image_profile:
-          "https://static01.nyt.com/newsgraphics/2020/11/12/fake-people/4b806cf591a8a76adfc88d19e90c8c634345bf3d/fallbacks/mobile-05.jpg",
       },
     };
-  },
-  methods: {
-    upload_profile(file) {
-      if (file.target.files[0]) {
-        this.preview_img = URL.createObjectURL(file.target.files[0]);
-      } else {
-        console.log("not have file");
-      }
-    },
   },
 };
 </script>
@@ -294,7 +276,7 @@ export default {
 #box-center {
   display: flex;
   min-width: 75vw;
-  min-height: 50vh;
+  min-height: 60vh;
   background-color: white;
   margin: 0;
   position: absolute;

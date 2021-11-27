@@ -146,10 +146,11 @@ export default {
             color: "#AFE4AE",
             assign_to: {
               id: 0,
-              fullname: "Jennifer S. Byrd",
+              full_name: "Jennifer S. Byrd",
               image_profile:
                 "https://static01.nyt.com/newsgraphics/2020/11/12/fake-people/4b806cf591a8a76adfc88d19e90c8c634345bf3d/fallbacks/mobile-05.jpg",
             },
+            due_date:"2020-01-01"
           },
         ],
         in_progress: [],
@@ -163,10 +164,11 @@ export default {
             color: "#AFE4AE",
             assign_to: {
               id: 0,
-              fullname: "Jennifer S. Byrd",
+              full_name: "Jennifer S. Byrd",
               image_profile:
                 "https://static01.nyt.com/newsgraphics/2020/11/12/fake-people/4b806cf591a8a76adfc88d19e90c8c634345bf3d/fallbacks/mobile-05.jpg",
             },
+            due_date:"2020-01-01"
           },
         ],
       },
