@@ -7,7 +7,7 @@
       <div class="text-center" style="margin-top: 25px; font-size: 32px">
         Welcome Back!
       </div>
-      <div style="padding:50px;">
+      <div style="padding: 50px">
         <div class="login-form">
           <label>Email</label>
           <input v-model="email" class="input-custom" type="text" />
@@ -30,13 +30,13 @@
             OR
           </div>
           <router-link to="/create-account">
-          <button
-            type="button"
-            class="btn btn-create-account btn-lg btn-block"
-            style="width: 100%"
-          >
-            Create an account
-          </button>
+            <button
+              type="button"
+              class="btn btn-create-account btn-lg btn-block"
+              style="width: 100%"
+            >
+              Create an account
+            </button>
           </router-link>
         </div>
       </div>
@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
@@ -54,9 +55,31 @@ export default {
   },
   methods: {
     sing_in() {
-      alert(555);
-      //TODO: 1. have to do connect to API server for login page here
-      console.log(this.email, this.password);
+      axios
+        .post(
+          process.env.VUE_APP_API +
+            "/api_kanban_board/service/authentication/login.php",
+          {
+            email: this.email,
+            password: this.password,
+          }
+        )
+        .then((res) => {
+          if (res.data.status == true) {
+            localStorage.setItem("token", res.data.data.token);
+            localStorage.setItem(
+              "user_info",
+              JSON.stringify(res.data.data.user_info)
+            );
+
+            this.$router.push("/project-list")
+          } else {
+            alert(res.data.message);
+          }
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
     },
   },
 };
