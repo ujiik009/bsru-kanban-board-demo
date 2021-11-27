@@ -7,7 +7,7 @@
   >
     <div class="body-task" @click="$emit('click')">
       <div class="task-title">
-        {{ task.title }}
+        {{ task.name }}
       </div>
       <div class="task-description">
         {{ task.description }}

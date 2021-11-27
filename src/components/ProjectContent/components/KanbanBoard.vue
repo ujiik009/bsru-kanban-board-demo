@@ -2,7 +2,7 @@
   <div id="view-content">
     <!-- header -->
     <div class="header">
-      <div class="board-label">{{ project_item.name }} Kanban Board</div>
+      <div class="board-label">{{ project.name }} Kanban Board</div>
       <div>
         <b-input-group size="sm" class="mb-2">
           <b-form-input type="search" placeholder="Search"></b-form-input>
@@ -118,64 +118,63 @@
 <script>
 import Task from "@/components/ProjectContent/components/Task.vue";
 import TaskContent from "@/components/ProjectContent/components/TaskContent.vue";
+import axios from "axios";
 export default {
+  props: {
+    project_id: String,
+    project: Object,
+  },
   components: {
     Task,
     TaskContent,
+  },
+  async created() {
+    await this.get_task();
   },
   data() {
     return {
       open_task_modal: false,
       create_task_modal: false,
-      project_item: {
-        id: 1,
-        name: "Web Desinger Project",
-        percent: 50,
-        task_count: 50,
-        duration: "2020-12-30 00:00:00",
-        created_at: "2020-11-01 00:00:00",
-      },
       tasks: {
         todo: [
-          {
-            id: 0,
-            title: "Create Login Page",
-            state: "todo",
-            description:
-              "Login Page UI : You have to make prototype for you Developer and let them Coding Mockup follow you prototype",
-            color: "#AFE4AE",
-            assign_to: {
-              id: 0,
-              full_name: "Jennifer S. Byrd",
-              image_profile:
-                "https://static01.nyt.com/newsgraphics/2020/11/12/fake-people/4b806cf591a8a76adfc88d19e90c8c634345bf3d/fallbacks/mobile-05.jpg",
-            },
-            due_date:"2020-01-01"
-          },
+         
         ],
         in_progress: [],
         done: [
-          {
-            id: 2,
-            title: "Create API For Login",
-            state: "done",
-            description:
-              "Login Page UI : You have to make prototype for you Developer and let them Coding Mockup follow you prototype",
-            color: "#AFE4AE",
-            assign_to: {
-              id: 0,
-              full_name: "Jennifer S. Byrd",
-              image_profile:
-                "https://static01.nyt.com/newsgraphics/2020/11/12/fake-people/4b806cf591a8a76adfc88d19e90c8c634345bf3d/fallbacks/mobile-05.jpg",
-            },
-            due_date:"2020-01-01"
-          },
+         
         ],
       },
       task_item_drag: null,
     };
   },
   methods: {
+    get_task() {
+      axios
+        .get(
+          process.env.VUE_APP_API +
+            "/api_kanban_board/service/tasks/task_list.php?project_id=" +
+            this.project_id,
+          {
+            headers: {
+              authorization: localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((res) => {
+          if (res.data.status == true) {
+            this.tasks.todo = res.data.data.filter((x) => x.state == "todo");
+            this.tasks.in_progress = res.data.data.filter(
+              (x) => x.state == "in_progress"
+            );
+            this.tasks.done = res.data.data.filter((x) => x.state == "done");
+          } else {
+            alert(res.data.message);
+          }
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    },
     create_task_model() {},
     open_task_model(task_item) {
       this.task_item_drag = task_item;
@@ -196,7 +195,6 @@ export default {
 
       if (this.task_item_drag != null) {
         let previous_state = this.task_item_drag.state;
-    
 
         // remove previous_state
         this.tasks[previous_state] = this.tasks[previous_state].filter(
